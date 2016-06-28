@@ -1,0 +1,102 @@
+{
+    "id": "{{service.name}}{{#high-availability.enabled}}{{^high-availability.secondary.enabled}}-primary{{/high-availability.secondary.enabled}}{{#high-availability.secondary.enabled}}-secondary{{/high-availability.secondary.enabled}}{{/high-availability.enabled}}",
+    "cpus": {{service.cpus}},
+    "mem": {{service.mem}},
+    "instances": 1,
+    "container": {
+        "type": "DOCKER",
+        "docker": {
+            {{^high-availability.enabled}}
+            "image": "{{resource.assets.container.docker.artifactory-pro}}",
+            {{/high-availability.enabled}}
+            {{#high-availability.enabled}}
+            {{^high-availability.secondary.enabled}}
+            "image": "{{resource.assets.container.docker.artifactory-ha-primary}}",
+            {{/high-availability.secondary.enabled}}
+            {{#high-availability.secondary.enabled}}
+            "image": "{{resource.assets.container.docker.artifactory-ha-secondary}}",
+            {{/high-availability.secondary.enabled}}
+            {{/high-availability.enabled}}
+            "network": "HOST"
+        },
+        "volumes": [
+            {{^high-availability.enabled}}
+            {{#pro.external-volumes.enabled}}
+            {
+               "containerPath": "/var/opt/jfrog/cluster",
+               "external": {
+                  "name": "{{service.name}}-cluster",
+                  "provider": "dvdi",
+                  "options": { "dvdi/driver": "rexray" }
+               },
+               "mode": "RW"
+            }
+            {{/pro.external-volumes.enabled}}
+            {{^pro.external-volumes.enabled}}
+            {
+               "containerPath": "/var/opt/jfrog/cluster",
+               "hostPath": "cluster",
+               "mode": "RW"
+            },
+            {
+               "containerPath": "cluster",
+               "mode": "RW",
+               "persistent": {
+                  "size": {{pro.local-volumes.cluster-home-size}}
+               }
+            }
+            {{/pro.external-volumes.enabled}}
+            {{/high-availability.enabled}}
+            {{#high-availability.enabled}}
+            {
+                "containerPath": "/var/opt/jfrog/cluster",
+                "hostPath": "{{high-availability.cluster-home}}/cluster-home",
+                "mode": "RW"
+            }
+            {{/high-availability.enabled}}
+         ]
+    },
+    "portDefinitions": [
+        {
+            "port": 0,
+            "protocol": "tcp",
+            "name": "instance",
+            "labels": {}
+        },
+        {
+            "port": 0,
+            "protocol": "tcp",
+            "name": "member",
+            "labels": {}
+        }
+        ],
+    "env": {
+            {{#high-availability.enabled}}"ART_LICENSES": "{{high-availability.licenses}}"{{/high-availability.enabled}},
+            {{#high-availability.enabled}}{{#high-availability.secondary.enabled}}"ART_API_KEY": "{{artifactory-secondary.api-key}}",{{/high-availability.enabled}}{{/high-availability.secondary.enabled}}
+            "ART_DATABASE_CONNECTION_STRING": "{{database.connection-string}}",
+            "ART_DATABASE_USER":  "{{database.user}}",
+            "ART_DATABASE_PASSWORD":  "{{database.password}}"
+    },
+    "labels": {
+            {{^high-availability.secondary.enabled}}"MARATHON_SINGLE_INSTANCE_APP": "true",{{/high-availability.secondary.enabled}}
+            "DCOS_SERVICE_NAME": "{{service.name}}"
+    },
+    {{^high-availability.secondary.enabled}}"upgradeStrategy":{
+            "minimumHealthCapacity": 0,
+            "maximumOverCapacity": 0
+    },{{/high-availability.secondary.enabled}}
+    "healthChecks": [
+        {
+            "gracePeriodSeconds": 3,
+            "intervalSeconds": 10,
+            "maxConsecutiveFailures": 3,
+            "path": "/artifactory/api/system/ping",
+            "portIndex": 0,
+            "protocol": "HTTP",
+            "timeoutSeconds": 10
+        }
+        ],
+    {{#high-availability.enabled}}{{#high-availability.secondary.unique-nodes}}
+            "constraints": [["hostname", "UNIQUE"]]
+    {{/high-availability.secondary.unique-nodes}}{{/high-availability.enabled}}
+}
