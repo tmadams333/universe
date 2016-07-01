@@ -23,9 +23,9 @@
             {{^high-availability.enabled}}
             {{#pro.external-volumes.enabled}}
             {
-               "containerPath": "/var/opt/jfrog/cluster",
+               "containerPath": "/var/opt/jfrog/artifactory",
                "external": {
-                  "name": "{{service.name}}-cluster",
+                  "name": "{{service.name}}",
                   "provider": "dvdi",
                   "options": { "dvdi/driver": "rexray" }
                },
@@ -34,15 +34,15 @@
             {{/pro.external-volumes.enabled}}
             {{^pro.external-volumes.enabled}}
             {
-               "containerPath": "/var/opt/jfrog/cluster",
-               "hostPath": "cluster",
+               "containerPath": "/var/opt/jfrog/artifactory",
+               "hostPath": "artifactory",
                "mode": "RW"
             },
             {
-               "containerPath": "cluster",
+               "containerPath": "artifactory",
                "mode": "RW",
                "persistent": {
-                  "size": {{pro.local-volumes.cluster-home-size}}
+                  "size": {{pro.local-volumes.artifactory-home-size}}
                }
             }
             {{/pro.external-volumes.enabled}}

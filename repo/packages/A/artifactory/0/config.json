@@ -60,14 +60,14 @@
           "description": "Local persistent volumes configuration (only used if external persistent volumes are disabled). Local persistent volumes are created on one machine and Marathon will attempt to re-launch the task on the same machine. Note that if the machine is lost, your data may also be lost.",
           "type": "object",
           "properties": {
-            "cluster-home-size": {
+            "artifactory-home-size": {
               "description": "Size of the cluster-home volume in MiB.",
               "type": "integer",
-              "default": 512
+              "default": 5120
             }
           },
           "required": [
-            "cluster-home-size"
+            "artifactory-home-size"
           ]
         },
         "external-volumes": {
