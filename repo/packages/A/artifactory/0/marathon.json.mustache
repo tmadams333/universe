@@ -60,18 +60,16 @@
         {
             "port": 0,
             "protocol": "tcp",
-            "name": "instance",
-            "labels": {}
+            "name": "instance"
         },
         {
             "port": 0,
             "protocol": "tcp",
-            "name": "member",
-            "labels": {}
+            "name": "member"
         }
         ],
     "env": {
-            {{#high-availability.enabled}}"ART_LICENSES": "{{high-availability.licenses}}"{{/high-availability.enabled}},
+            {{#high-availability.enabled}}"ART_LICENSES": "{{high-availability.licenses}}",{{/high-availability.enabled}}
             {{#high-availability.enabled}}{{#high-availability.secondary.enabled}}"ART_API_KEY": "{{artifactory-secondary.api-key}}",{{/high-availability.secondary.enabled}}{{/high-availability.enabled}}
             "ART_DATABASE_CONNECTION_STRING": "{{database.connection-string}}",
             "ART_DATABASE_USER":  "{{database.user}}",
