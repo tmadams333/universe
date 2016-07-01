@@ -57,7 +57,7 @@
       "type": "object",
       "properties": {
         "local-volumes": {
-          "description": "Local persistent volumes configuration (only used if external volumes are disabled). Local persistent volumes are created on one machine and Marathon will attempt to re-launch the task on the same machine. Note that if the machine is lost, your data may also be lost.",
+          "description": "Local persistent volumes configuration (only used if external persistent volumes are disabled). Local persistent volumes are created on one machine and Marathon will attempt to re-launch the task on the same machine. Note that if the machine is lost, your data may also be lost.",
           "type": "object",
           "properties": {
             "cluster-home-size": {
@@ -110,6 +110,8 @@
           "default": "NONE"
         },
         "secondary": {
+          "description": "COnfiguration properties for the Artifactory HA secondary node.",
+          "type": "object",
           "enabled": {
             "description": "Whether this DC/OS service represents the Artifactory HA secondary instance. To run Artifactory HA, you must deploy one primary DC/OS service and one secondary DC/OS service. By default, this is false (i.e. a primary instance).",
             "type": "boolean",
