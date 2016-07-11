@@ -24,11 +24,11 @@
         "mem": {
             "description": "Memory to allocate to each Jenkins master.",
             "type": "number",
-            "default": 1024.0,
-            "minimum": 1024.0
+            "default": 2048.0,
+            "minimum": 2048.0
         },
         "mesos-master": {
-            "description": "URI of this cluster's Mesos master.",
+            "description": "URL of this cluster's Mesos master.",
             "type": "string",
             "default": "zk://leader.mesos:2181/mesos"
         },
@@ -40,7 +40,7 @@
         "jvm-opts": {
             "description": "Optional arguments to pass to the JVM.",
             "type": "string",
-            "default": "-Xms512m -Xmx512m"
+            "default": "-Xms1024m -Xmx1024m"
         },
         "known-hosts": {
             "description": "A space-separated list of hosts used to populate the SSH known hosts file on the Jenkins master.",
@@ -55,6 +55,27 @@
         "pinned-hostname": {
             "description": "An optional DCOS agent hostname to run this Jenkins instance on (e.g. 10.0.0.1).",
             "type" : "string"
+        },
+        "docker-image": {
+            "description": "The Docker image to use for the Jenkins service. By default, this package will use the Velocity image in the Mesosphere organization on Docker Hub, which you must be authenticated against. Otherwise, specify the host, image, and tag for the Velocity image on your private Docker Registry.",
+            "type": "string"
+        },
+        "docker-credentials-uri": {
+            "description": "An optional URI to be fetched and extracted that contains docker credentials (e.g. file:///etc/docker/docker.tar.gz).",
+            "type": "string"
+        },
+        "virtual-host": {
+            "description": "The virtual host address to configure for integration with Marathon-lb.",
+            "type": "string"
+        },
+        "https-redirect": {
+            "description": "Whether Marathon-lb should redirect HTTP traffic to HTTPS. This requires 'virtual-host' to be set. By default, this is false.",
+            "type": "boolean",
+            "default": false
+        },
+        "root-url": {
+            "description": "The web address of the Jenkins installation (e.g. http://jenkins.example.com). This is used by Jenkins to refer to itself when creating links in emails, chat notifications, etc.",
+            "type": "string"
         }
       },
       "required": [

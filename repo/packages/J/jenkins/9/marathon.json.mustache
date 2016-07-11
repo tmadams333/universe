@@ -7,6 +7,9 @@
       "JENKINS_FRAMEWORK_NAME": "{{jenkins.framework-name}}",
       "JENKINS_CONTEXT": "/service/{{jenkins.framework-name}}",
       "JENKINS_MESOS_MASTER": "{{jenkins.mesos-master}}",
+      {{#jenkins.root-url}}
+      "JENKINS_ROOT_URL": "{{jenkins.root-url}}",
+      {{/jenkins.root-url}}
       "JVM_OPTS": "{{jenkins.jvm-opts}}",
       "LD_LIBRARY_PATH": "/opt/mesosphere/lib",
       "SSH_KNOWN_HOSTS": "{{jenkins.known-hosts}}"
@@ -15,7 +18,12 @@
   "container": {
        "type": "DOCKER",
        "docker": {
-           "image": "{{resource.assets.container.docker.e84d2658d662}}",
+       {{#jenkins.docker-image}}
+           "image": "{{jenkins.docker-image}}",
+       {{/jenkins.docker-image}}
+       {{^jenkins.docker-image}}
+           "image": "{{resource.assets.container.docker.jenkins-100-16513}}",
+       {{/jenkins.docker-image}}
            "network" : "HOST"
        },
        "volumes": [
@@ -31,6 +39,14 @@
            }
        ]
    },
+   {{#jenkins.docker-credentials-uri}}
+   "fetch": [
+      {
+          "uri": "{{jenkins.docker-credentials-uri}}",
+          "executable": false,
+          "extract": true
+      }
+   ],{{/jenkins.docker-credentials-uri}}
    "acceptedResourceRoles": [ "{{jenkins.role}}" ],
    "healthChecks": [
     {
@@ -44,6 +60,11 @@
     }
   ],
   "labels": {
+    {{#jenkins.virtual-host}}
+    "HAPROXY_GROUP":"external",
+    "HAPROXY_0_VHOST":"{{jenkins.virtual-host}}",
+    "HAPROXY_0_REDIRECT_TO_HTTPS": "{{jenkins.https-redirect}}",
+    {{/jenkins.virtual-host}}
     "MARATHON_SINGLE_INSTANCE_APP": "true",
     "DCOS_PACKAGE_FRAMEWORK_NAME": "{{jenkins.framework-name}}"
   },

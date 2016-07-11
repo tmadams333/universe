@@ -7,7 +7,7 @@
   "assets": {
     "container": {
       "docker": {
-        "e84d2658d662": "mesosphere/jenkins:0.2.3"
+        "jenkins-100-16513": "mesosphere/jenkins:1.0.0-1.651.3"
       }
     }
   }
