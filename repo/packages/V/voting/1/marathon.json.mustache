@@ -1,0 +1,291 @@
+{
+  "id": "/voting",
+  "apps": [
+    {
+      "id": "/voting/postgres",
+      "cmd": null,
+      "args": null,
+      "user": null,
+      "env": {},
+      "instances": 1,
+      "cpus": 1,
+      "mem": 1024,
+      "disk": 0,
+      "executor": "",
+      "constraints": [],
+      "uris": [],
+      "storeUrls": [],
+      "ports": [
+        10001
+      ],
+      "requirePorts": false,
+      "backoffSeconds": 1,
+      "backoffFactor": 1.15,
+      "maxLaunchDelaySeconds": 3600,
+      "container": {
+        "type": "DOCKER",
+        "volumes": [],
+        "docker": {
+          "image": "postgres:9.4",
+          "network": "BRIDGE",
+          "portMappings": [
+            {
+              "containerPort": 5432,
+              "hostPort": 0,
+              "servicePort": 10001,
+              "protocol": "tcp"
+            }
+          ],
+          "privileged": false,
+          "parameters": [],
+          "forcePullImage": true
+        }
+      },
+      "healthChecks": [
+        {
+          "protocol": "TCP",
+          "portIndex": 0,
+          "gracePeriodSeconds": 120,
+          "intervalSeconds": 30,
+          "timeoutSeconds": 5,
+          "maxConsecutiveFailures": 3,
+          "ignoreHttp1xx": false
+        }
+      ],
+      "dependencies": [],
+      "upgradeStrategy": {
+        "minimumHealthCapacity": 0,
+        "maximumOverCapacity": 1
+      },
+      "labels": {},
+      "acceptedResourceRoles": null
+    },
+    {
+      "id": "/voting/voting-app",
+      "cmd": null,
+      "args": null,
+      "user": null,
+      "env": {},
+      "instances": 1,
+      "cpus": 1,
+      "mem": 1024,
+      "disk": 0,
+      "executor": "",
+      "constraints": [],
+      "uris": [],
+      "storeUrls": [],
+      "ports": [
+        10004
+      ],
+      "requirePorts": false,
+      "backoffSeconds": 1,
+      "backoffFactor": 1.15,
+      "maxLaunchDelaySeconds": 3600,
+      "container": {
+        "type": "DOCKER",
+        "volumes": [],
+        "docker": {
+          "image": "bluebeluga/voting-app",
+          "network": "BRIDGE",
+          "portMappings": [
+            {
+              "containerPort": 80,
+              "hostPort": 0,
+              "servicePort": 10004,
+              "protocol": "tcp"
+            }
+          ],
+          "privileged": false,
+          "parameters": [],
+          "forcePullImage": true
+        }
+      },
+      "healthChecks": [
+        {
+          "path": "/",
+          "protocol": "HTTP",
+          "portIndex": 0,
+          "gracePeriodSeconds": 120,
+          "intervalSeconds": 30,
+          "timeoutSeconds": 5,
+          "maxConsecutiveFailures": 3,
+          "ignoreHttp1xx": false
+        }
+      ],
+      "dependencies": [],
+      "upgradeStrategy": {
+        "minimumHealthCapacity": 0,
+        "maximumOverCapacity": 1
+      },
+      "labels": {},
+      "acceptedResourceRoles": null
+    },
+    {
+      "id": "/voting/result-app",
+      "cmd": null,
+      "args": null,
+      "user": null,
+      "env": {},
+      "instances": 1,
+      "cpus": 1,
+      "mem": 1024,
+      "disk": 0,
+      "executor": "",
+      "constraints": [],
+      "uris": [],
+      "storeUrls": [],
+      "ports": [
+        10003
+      ],
+      "requirePorts": false,
+      "backoffSeconds": 1,
+      "backoffFactor": 1.15,
+      "maxLaunchDelaySeconds": 3600,
+      "container": {
+        "type": "DOCKER",
+        "volumes": [],
+        "docker": {
+          "image": "bluebeluga/result-app",
+          "network": "BRIDGE",
+          "portMappings": [
+            {
+              "containerPort": 80,
+              "hostPort": 0,
+              "servicePort": 10003,
+              "protocol": "tcp"
+            }
+          ],
+          "privileged": false,
+          "parameters": [
+            {
+              "key": "env",
+              "value": "PORT=80"
+            }
+          ],
+          "forcePullImage": true
+        }
+      },
+      "healthChecks": [
+        {
+          "path": "/",
+          "protocol": "HTTP",
+          "portIndex": 0,
+          "gracePeriodSeconds": 120,
+          "intervalSeconds": 30,
+          "timeoutSeconds": 5,
+          "maxConsecutiveFailures": 3,
+          "ignoreHttp1xx": false
+        }
+      ],
+      "dependencies": [],
+      "upgradeStrategy": {
+        "minimumHealthCapacity": 0,
+        "maximumOverCapacity": 1
+      },
+      "labels": {},
+      "acceptedResourceRoles": null
+    },
+    {
+      "id": "/voting/worker",
+      "cmd": null,
+      "args": null,
+      "user": null,
+      "env": {},
+      "instances": 1,
+      "cpus": 1,
+      "mem": 1024,
+      "disk": 0,
+      "executor": "",
+      "constraints": [],
+      "uris": [],
+      "storeUrls": [],
+      "ports": [
+        10002
+      ],
+      "requirePorts": false,
+      "backoffSeconds": 1,
+      "backoffFactor": 1.15,
+      "maxLaunchDelaySeconds": 3600,
+      "container": {
+        "type": "DOCKER",
+        "volumes": [],
+        "docker": {
+          "image": "bluebeluga/worker",
+          "network": "BRIDGE",
+          "privileged": false,
+          "parameters": [],
+          "forcePullImage": true
+        }
+      },
+      "healthChecks": [],
+      "dependencies": [],
+      "upgradeStrategy": {
+        "minimumHealthCapacity": 0,
+        "maximumOverCapacity": 1
+      },
+      "labels": {},
+      "acceptedResourceRoles": null
+    },
+    {
+      "id": "/voting/redis",
+      "cmd": null,
+      "args": null,
+      "user": null,
+      "env": {},
+      "instances": 1,
+      "cpus": 1,
+      "mem": 1024,
+      "disk": 0,
+      "executor": "",
+      "constraints": [],
+      "uris": [],
+      "storeUrls": [],
+      "ports": [
+        10000
+      ],
+      "requirePorts": false,
+      "backoffSeconds": 1,
+      "backoffFactor": 1.15,
+      "maxLaunchDelaySeconds": 3600,
+      "container": {
+        "type": "DOCKER",
+        "volumes": [],
+        "docker": {
+          "image": "redis",
+          "network": "BRIDGE",
+          "portMappings": [
+            {
+              "containerPort": 6379,
+              "hostPort": 0,
+              "servicePort": 10000,
+              "protocol": "tcp"
+            }
+          ],
+          "privileged": false,
+          "parameters": [],
+          "forcePullImage": true
+        }
+      },
+      "healthChecks": [
+        {
+          "protocol": "TCP",
+          "portIndex": 0,
+          "gracePeriodSeconds": 120,
+          "intervalSeconds": 30,
+          "timeoutSeconds": 5,
+          "maxConsecutiveFailures": 3,
+          "ignoreHttp1xx": false
+        }
+      ],
+      "dependencies": [],
+      "upgradeStrategy": {
+        "minimumHealthCapacity": 0,
+        "maximumOverCapacity": 1
+      },
+      "labels": {},
+      "acceptedResourceRoles": null
+    }
+  ],
+  "groups": [],
+  "dependencies": []
+}

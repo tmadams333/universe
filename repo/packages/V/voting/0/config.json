@@ -1,0 +1,21 @@
+{
+    "type": "object",
+    "properties": {
+        "voting": {
+            "description": "voting configuration properties",
+            "type": "object",
+            "properties": {
+                "memory": {
+                    "default": "1024",
+                    "description": "The amount of ram that Mesos should give to Voting.",
+                    "type": "string"
+                },
+                "cpu": {
+                    "default": "1",
+                    "description": "The amount of CPU resource to allocate to Voting instance.",
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,16 @@
+{
+  "images": {
+    "icon-small": "https://downloads.mesosphere.com/universe/assets/icon-service-jenkins-small.png",
+    "icon-medium": "https://downloads.mesosphere.com/universe/assets/icon-service-jenkins-medium.png",
+    "icon-large": "https://downloads.mesosphere.com/universe/assets/icon-service-jenkins-large.png"
+  },
+  "assets": {
+    "container": {
+      "docker": {
+        "b95f8bad58fb": "h0tbird/voting-app:latest",
+        "6b816ed04d36": "h0tbird/result-app:latest",
+        "eb9aa39da534": "h0tbird/worker:latest"
+      }
+    }
+  }
+}

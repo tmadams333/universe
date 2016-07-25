@@ -1,0 +1,19 @@
+{
+  "name": "voting",
+  "version": "0.8.6",
+  "packagingVersion": "2.0",
+  "framework": false,
+  "maintainer": "dogs@cats.io",
+  "description": "Canary test/release and autoscaling platform for DC/OS",
+  "tags": ["voting", "canary", "testing", "autoscaling"],
+  "scm": "https://github.kp.org/IMGDevOps/dcos-voting",
+  "website": "https://github.kp.org/IMGDevOps/dcos-voting",
+  "preInstallNotes": "In order to run the Voting app you need to specify few parameters like CPU and memeroy allocation etc.",
+  "postInstallNotes": "The Cats and Dogs Vating application has been successfully installed! Now get out and r0ck the VOTE!.",
+  "licenses": [
+    {
+      "name": "Kaiser License Version 2.0",
+      "url": "https://github.kp.org/IMGDevOps/dcos-voting"
+    }
+  ]
+}
